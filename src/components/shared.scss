@@ -1,0 +1,32 @@
+h1 {
+  text-align: center;
+  font-size: 3em;
+  margin: 0 0 0.5em;
+}
+
+.Buttons-cnt {
+  padding: 0 10vw;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  gap: 1em;
+
+  button {
+    cursor: pointer;
+    border-radius: 0.5em;
+    padding: 0.25em 0.5em;
+    line-height: 1em;
+    font-size: 3em;
+    border: 2px solid #FFFFFF;
+    background: linear-gradient(180deg, #FFFFFF, #FFDDEE);
+    box-shadow: 0 0.1em 0.5em rgba(0, 0, 0, 0.5);
+    text-shadow: 0 2px 0 #FFFFFF;
+    font-family: inherit;
+    font-weight: bold;
+    transition: transform 200ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+}
