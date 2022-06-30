@@ -1,0 +1,21 @@
+.Page-head {
+  display: flex;
+  margin-bottom: 1em;
+  align-items: center;
+}
+.Page-back {
+  font-size: 2em;
+  text-align: center;
+  width: 16vw;
+  text-decoration: none;
+  color: #FFF;
+  text-shadow: 0 0.05em 0.1em rgba(0, 0, 0, 0.5);
+  font-weight: normal;
+}
+.Page-title {
+  flex: 1;
+  margin: 0 16vw 0 0;
+  color: #FFF;
+  text-shadow: 0 0.05em 0.1em rgba(0, 0, 0, 0.5);
+  font-weight: normal;
+}

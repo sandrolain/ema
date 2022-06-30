@@ -29,8 +29,17 @@
   position: relative;
   color: #FFFFFF;
   text-decoration: none;
-  font-weight: bold;
   font-size: 1em;
+  transition: transform 200ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  text-shadow: 0 0.1em 0.2em rgba(0, 0, 0, 0.5);
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  &:active {
+    transform: scale(0.9);
+  }
 
   &::after {
     content: "";
@@ -41,7 +50,7 @@
     top: 0.1em;
     height: calc(50% + 0.5em);
     border-radius: 0.9em;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0));
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
   }
 
   img {
@@ -49,32 +58,32 @@
   }
 }
 
-.Home-button:nth-child(2) {
-  --btn-col-1: #993300;
-  --btn-col-2: #FF9900;
-}
+// .Home-button:nth-child(2) {
+//   --btn-col-1: #993300;
+//   --btn-col-2: #FF9900;
+// }
 
-.Home-button:nth-child(3) {
-  --btn-col-1: #006600;
-  --btn-col-2: #00CC00;
-}
+// .Home-button:nth-child(3) {
+//   --btn-col-1: #006600;
+//   --btn-col-2: #00CC00;
+// }
 
-.Home-button:nth-child(4) {
-  --btn-col-1: #990000;
-  --btn-col-2: #FF0000;
-}
+// .Home-button:nth-child(4) {
+//   --btn-col-1: #990000;
+//   --btn-col-2: #FF0000;
+// }
 
-.Home-button:nth-child(4) {
-  --btn-col-1: #000099;
-  --btn-col-2: #0000FF;
-}
+// .Home-button:nth-child(4) {
+//   --btn-col-1: #000099;
+//   --btn-col-2: #0000FF;
+// }
 
-.Home-button:nth-child(4) {
-  --btn-col-1: #996600;
-  --btn-col-2: #FFCC00;
-}
+// .Home-button:nth-child(4) {
+//   --btn-col-1: #996600;
+//   --btn-col-2: #FFCC00;
+// }
 
-.Home-button:nth-child(4) {
-  --btn-col-1: #996633;
-  --btn-col-2: #FF9966;
-}
+// .Home-button:nth-child(4) {
+//   --btn-col-1: #996633;
+//   --btn-col-2: #FF9966;
+// }

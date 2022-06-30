@@ -1,9 +1,16 @@
 
+type BeforeAfterPlay = (letter: string) => Promise<any>;
+
+export function wordToLetters (word: string) {
+  const letters = word.split("");
+  return letters;
+}
+
 export class AudioService {
-  private audioContext: AudioContext;
+  private audioContext!: AudioContext;
   private items: Map<string, AudioServiceItem> = new Map();
 
-  constructor() {
+  init () {
     this.audioContext = new AudioContext();
   }
 
@@ -39,15 +46,51 @@ export class AudioService {
     return this.items.get(name);
   }
 
-  playItem(name: string) {
-    return this.getItem(name)?.play();
+  playItem(name: string, signal?: AbortSignal) {
+    const item = this.getItem(name);
+    return new Promise((resolve, reject) => {
+      signal?.addEventListener("abort", reject);
+      item?.play().then(resolve, reject);
+    });
   }
 
-  async playChain(names: string[], before?: (letter: string) => Promise<any>, after?: (letter: string) => Promise<any>) {
+  private abort!: AbortController | null;
+
+  abortIfPlaying () {
+    this.abort?.abort();
+  }
+
+  async playWord(word: string, before?: BeforeAfterPlay, after?: BeforeAfterPlay) {
+    this.abortIfPlaying();
+    const abort = new AbortController();
+    const signal = abort.signal;
+    this.abort = abort;
+    await this.playItem(word, signal);
+    await this.playChain(wordToLetters(word), before, after, signal);
+    await this.playItem(word, signal);
+    this.abort = null;
+  }
+
+  async playChain(names: string[], before?: BeforeAfterPlay, after?: BeforeAfterPlay, signal?: AbortSignal) {
+    const checkAbort = () => {
+      if (signal?.aborted) {
+        throw new Error("aborted");
+      }
+      return true;
+    }
     for (const name of names) {
-      before && await before(name);
-      await this.playItem(name);
-      after && await after(name);
+      before && checkAbort() && await before(name);
+      checkAbort() && await this.playItem(name, signal);
+      after && checkAbort() && await after(name);
+    }
+  }
+
+  async playLoop (sound: string, params?: PlayParams) {
+    const item = this.getItem(sound);
+    if (item) {
+      while(true) {
+        await item.play(params);
+      }
     }
   }
 }
@@ -55,13 +98,15 @@ export class AudioService {
 export interface PlayParams {
   when?: number;
   offset?: number;
-  duration?: number
+  duration?: number;
+  volume?: number;
   ended?: (event: Event) => any;
 }
 
 const DEFAULT_PLAY_PARAMS: PlayParams = {
   when: 0,
-  offset: 0
+  offset: 0,
+  volume: 1
 };
 
 export class AudioServiceItem {
@@ -72,17 +117,22 @@ export class AudioServiceItem {
     private audioBuffer: AudioBuffer
   ) {}
 
-  private createAudioSource (): AudioBufferSourceNode {
+  private createAudioSource (volume: number): AudioBufferSourceNode {
+    const gainNode = this.audioContext.createGain()
+    gainNode.gain.value = volume;
+    gainNode.connect(this.audioContext.destination)
+
     const source = this.audioContext.createBufferSource();
     source.buffer = this.audioBuffer;
-    source.connect(this.audioContext.destination);
+    source.connect(gainNode)
+
     return source;
   }
 
   play (params: PlayParams = DEFAULT_PLAY_PARAMS): Promise<AudioServiceItem> {
     params = {...DEFAULT_PLAY_PARAMS, ...params};
     // this.stop();
-    this.audioSource = this.createAudioSource();
+    this.audioSource = this.createAudioSource(params.volume ?? 1);
     const res = new Promise<AudioServiceItem>((resolve) => {
       this.audioSource.addEventListener("ended", () => resolve(this));
     });

@@ -16,7 +16,8 @@ h1 {
     border-radius: 0.5em;
     padding: 0.25em 0.5em;
     line-height: 1em;
-    font-size: 3em;
+    font-size: 2em;
+    color: #331122;
     border: 2px solid #FFFFFF;
     background: linear-gradient(180deg, #FFFFFF, #FFDDEE);
     box-shadow: 0 0.1em 0.5em rgba(0, 0, 0, 0.5);
@@ -27,6 +28,10 @@ h1 {
 
     &:hover {
       transform: scale(1.1);
+    }
+
+    &:active {
+      transform: scale(0.9);
     }
   }
 }

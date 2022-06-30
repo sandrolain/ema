@@ -7,7 +7,10 @@ export default defineConfig({
   plugins: [
     react(),
     dynamicImportVars({
-      include: ["./src/assets/sounds/*.mp3"]
+      include: [
+        "./src/assets/music/*.mp3",
+        "./src/assets/sounds/*.mp3"
+      ]
     })
   ],
   assetsInclude: ["**/*.mp3"]
