@@ -46,12 +46,20 @@ export class AudioService {
     return this.items.get(name);
   }
 
-  playItem(name: string, signal?: AbortSignal) {
+  async playItem(name: string, signal?: AbortSignal, before?: BeforeAfterPlay, after?: BeforeAfterPlay) {
+    const checkAbort = () => {
+      if (signal?.aborted) {
+        throw new Error("aborted");
+      }
+      return true;
+    }
     const item = this.getItem(name);
-    return new Promise((resolve, reject) => {
-      signal?.addEventListener("abort", reject);
-      item?.play().then(resolve, reject);
+    before && checkAbort() && await before(name);
+    signal?.addEventListener("abort", (e) => {
+      item?.stop();
     });
+    checkAbort() && await item?.play();
+    after && checkAbort() && await after(name);
   }
 
   private abort!: AbortController | null;
@@ -66,22 +74,14 @@ export class AudioService {
     const signal = abort.signal;
     this.abort = abort;
     await this.playItem(word, signal);
-    await this.playChain(wordToLetters(word), before, after, signal);
+    await this.playChain(wordToLetters(word), signal, before, after);
     await this.playItem(word, signal);
     this.abort = null;
   }
 
-  async playChain(names: string[], before?: BeforeAfterPlay, after?: BeforeAfterPlay, signal?: AbortSignal) {
-    const checkAbort = () => {
-      if (signal?.aborted) {
-        throw new Error("aborted");
-      }
-      return true;
-    }
+  async playChain(names: string[], signal?: AbortSignal, before?: BeforeAfterPlay, after?: BeforeAfterPlay) {
     for (const name of names) {
-      before && checkAbort() && await before(name);
-      checkAbort() && await this.playItem(name, signal);
-      after && checkAbort() && await after(name);
+      await this.playItem(name, signal, before, after);
     }
   }
 
