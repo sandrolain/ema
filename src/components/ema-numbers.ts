@@ -1,9 +1,8 @@
 
 import { css, html, LitElement } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
-import { classMap } from 'lit/directives/class-map.js';
 import { repeat } from "lit/directives/repeat.js";
-import { audioService, letters, numbers } from '../assets/soundsMap';
+import { audioService, numbers } from '../assets/soundsMap';
 import { buttonStyle } from '../styles/button';
 import { BigLetterFinishEvent } from './ema-big-letter';
 

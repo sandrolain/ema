@@ -3,7 +3,7 @@ import { css, html, LitElement } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { repeat } from "lit/directives/repeat.js";
 import { getImage, images } from '../assets/images';
-import { audioService, words } from '../assets/soundsMap';
+import { words } from '../assets/soundsMap';
 import { buttonStyle } from '../styles/button';
 import { BigLetterFinishEvent } from './ema-big-letter';
 

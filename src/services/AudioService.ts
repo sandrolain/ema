@@ -56,7 +56,7 @@ export class AudioService {
     }
     const item = this.getItem(name);
     before && checkAbort() && await before(name);
-    signal?.addEventListener("abort", (e) => {
+    signal?.addEventListener("abort", () => {
       item?.stop();
     });
     checkAbort() && await item?.play();

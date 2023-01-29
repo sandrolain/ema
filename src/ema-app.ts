@@ -1,10 +1,10 @@
-import { css, html, LitElement, PropertyValueMap, TemplateResult } from 'lit';
+import { css, html, LitElement, TemplateResult } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { musicService, preloadMusic, preloadSounds } from './assets/soundsMap';
+import "./components/ema-big-letter";
 import "./components/ema-letters";
 import "./components/ema-numbers";
 import "./components/ema-words";
-import "./components/ema-big-letter";
 import { buttonStyle } from './styles/button';
 
 declare global {
