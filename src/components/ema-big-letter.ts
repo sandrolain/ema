@@ -2,7 +2,7 @@
 import { css, html, LitElement } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
-import { images } from '../assets/images';
+import { getImage, images } from '../assets/images';
 import { audioService } from '../assets/soundsMap';
 import { normaliseLetter, wait } from '../services/utils';
 
@@ -44,7 +44,7 @@ export class EmaBigLetterElement extends LitElement {
       vertical-align: middle;
       aspect-ratio: 1/1;
       object-fit: cover;
-      border-radius: 50%;
+      border-radius: 0.5em;
       box-shadow: 0 0.05em 0.1em rgba(0, 0, 0, 0.5);
     }
 
@@ -107,17 +107,10 @@ export class EmaBigLetterElement extends LitElement {
   render() {
     return html`
       <div id="big-letter" class=${classMap({show: this.visible, hide: !this.visible})}>
-      ${(this.letter in images) ? html`<img src=${this.getImage(images[this.letter])} />` : null}
+      ${(this.letter in images) ? html`<img src=${getImage(images[this.letter])} />` : null}
       ${this.letter}
       </div>
     `
-  }
-
-  private getImage(src: string | string[]): string {
-    if(Array.isArray(src)) {
-      return src[Math.floor(Math.random() * src.length)];
-    }
-    return src;
   }
 
   protected firstUpdated(): void {

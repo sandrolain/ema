@@ -2,6 +2,7 @@
 import { css, html, LitElement } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { repeat } from "lit/directives/repeat.js";
+import { getImage, images } from '../assets/images';
 import { audioService, words } from '../assets/soundsMap';
 import { buttonStyle } from '../styles/button';
 import { BigLetterFinishEvent } from './ema-big-letter';
@@ -85,7 +86,7 @@ export class EmaWordsElement extends LitElement {
 
   render() {
     return html`
-      <div id="words">${words.map((n) => html`<button @click=${() => this.playWord(n)}>${n}</button>`)}</div>
+      <div id="words">${words.map((n) => html`<button @click=${() => this.playWord(n)}>${images[n] ? html`<img src=${getImage(images[n])} />` : null}${n}</button>`)}</div>
       <div id="big-words">
         ${repeat(this.bigLetters, (item) => item.uid, (item) => html`<ema-big-letter letter=${item.letter} uid=${item.uid} @finish=${(e: BigLetterFinishEvent) => this.onFinish(e, item)}></ema-big-letter>`)}
       </div>

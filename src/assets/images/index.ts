@@ -39,3 +39,11 @@ export const images: Record<string, string | string[]> = {
   RICCARDO,
   SANDRO
 };
+
+
+export function getImage(src: string | string[]): string {
+  if(Array.isArray(src)) {
+    return src[Math.floor(Math.random() * src.length)];
+  }
+  return src;
+}

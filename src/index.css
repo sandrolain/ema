@@ -12,7 +12,7 @@
   --fg-tint: 300, 50%;
   --fg-color: hsl(var(--fg-tint), 90%);
 
-  --btn-tint: 300, 50%;
+  --btn-tint: 300, 80%;
 }
 
 
