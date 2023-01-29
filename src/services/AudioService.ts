@@ -46,7 +46,8 @@ export class AudioService {
     return this.items.get(name);
   }
 
-  async playItem(name: string, signal?: AbortSignal, before?: BeforeAfterPlay, after?: BeforeAfterPlay) {
+  async playItem(params: {name: string, signal?: AbortSignal, before?: BeforeAfterPlay, after?: BeforeAfterPlay}) {
+    const {name, signal, before, after} = params;
     const checkAbort = () => {
       if (signal?.aborted) {
         throw new Error("aborted");
@@ -73,15 +74,15 @@ export class AudioService {
     const abort = new AbortController();
     const signal = abort.signal;
     this.abort = abort;
-    await this.playItem(word, signal);
+    await this.playItem({name: word, signal});
     await this.playChain(wordToLetters(word), signal, before, after);
-    await this.playItem(word, signal);
+    await this.playItem({name: word, signal});
     this.abort = null;
   }
 
   async playChain(names: string[], signal?: AbortSignal, before?: BeforeAfterPlay, after?: BeforeAfterPlay) {
     for (const name of names) {
-      await this.playItem(name, signal, before, after);
+      await this.playItem({name, signal, before, after});
     }
   }
 
