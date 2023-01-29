@@ -5,12 +5,9 @@ import dynamicImportVars from "@rollup/plugin-dynamic-import-vars";
 export default defineConfig({
   build: {
     lib: {
-      entry: 'src/ema-app.ts',
+      entry: 'index.html',
       formats: ['es'],
-    },
-    rollupOptions: {
-      external: /^lit/,
-    },
+    }
   },
   plugins: [
     dynamicImportVars({
